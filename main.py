@@ -1,24 +1,37 @@
 # 📁 main.py
-from pyrogram import Client, filters
+
+from pyrogram import Client
 from config import API_ID, API_HASH, BOT_TOKEN
 import logging
+import sys
 import os
 
-logging.basicConfig(level=logging.INFO)
+# ✔️ Logging setup (Debug purpose)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+)
 
-# ✅ Load All Plugins
-plugins = dict(root="plugins")
+logger = logging.getLogger(__name__)
 
-# ✅ Create Client
-bot = Client(
-    "roseplusplus_bot",
+# ✔️ Ensure plugins folder exists
+if not os.path.isdir("plugins"):
+    logger.error("❌ 'plugins' folder missing. Make sure you have all plugin modules!")
+    sys.exit(1)
+
+# ✔️ Create Pyrogram Client with Bot Token
+app = Client(
+    "bawal_bot",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
-    plugins=plugins
+    plugins=dict(root="plugins")  # Load all plugin folders
 )
 
-# ✅ Run Bot
+# ✔️ Start the bot
 if __name__ == "__main__":
-    print("🤖 Bot Started as @KRIYANSH_CHOUDHARY")
-    bot.run()
+    print("🤖 Bot is starting... Powered by @KRIYANSH_CHOUDHARY")
+    try:
+        app.run()
+    except Exception as e:
+        logger.error(f"🔥 Bot Crashed: {e}")
