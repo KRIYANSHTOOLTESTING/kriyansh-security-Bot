@@ -1,0 +1,4 @@
+# 📁 requirements.txt
+pyrogram==2.0.106
+tgcrypto==1.2.5
+pymongo==4.6.3
